@@ -1,8 +1,5 @@
-/* RESONANCE — audio-reactive mesh-gradient hero + frequency/waveform visualizer.
-   Before the user presses play, a synthetic spectrum keeps the hero alive but silent.
-   On click, an AudioContext synthesizes a gentle ambient pad (detuned Cmaj7 voices +
-   slow LFOs) routed through an AnalyserNode; getByteFrequencyData drives the mesh + bars.
-   Mute returns to the synthetic source. No audio ever autoplays. */
+/* RESONANCE — animated mesh-gradient hero + silent waveform visualization.
+   The spectrum is synthesized as visual data only; this script never produces audio. */
 (() => {
   document.documentElement.classList.add('js');           // gate reveal-hiding on JS presence
   const docEl = document.documentElement;
@@ -19,15 +16,13 @@
     { col: [ 47, 184, 173], cx: 0.16, cy: 0.74, ax: 0.15, ay: 0.14, sx: 0.15, sy: 0.23, ph: 5.6, base: 0.28, react: 0.26, band: [0.62, 0.90], core: 0.30 },
   ];
 
-  /* ---------- shared spectrum buffers (analyser OR synthetic write here) ---------- */
+  /* ---------- visual-only spectrum buffers ---------- */
   const BINS = 512;
   const freq = new Uint8Array(BINS);
   const wave = new Uint8Array(BINS);
 
   /* ---------- feature detection ---------- */
   const canvasOK = !!document.createElement('canvas').getContext;
-  const AudioCtx = window.AudioContext || window.webkitAudioContext;
-  const audioOK = typeof AudioCtx === 'function';
 
   /* ---------- synthetic sources (alive but silent) ---------- */
   function synthSpectrum(t) {
@@ -53,91 +48,6 @@
   }
   const bump = (x, c, w) => Math.exp(-((x - c) * (x - c)) / (2 * w * w));
   const clamp255 = (v) => v < 0 ? 0 : v > 255 ? 255 : v;
-
-  /* ---------- audio engine (created only inside a click gesture) ---------- */
-  const audio = (() => {
-    let ctx = null, analyser = null, master = null, lp = null, started = false, suspendT = 0;
-    const voices = [];
-    const NOTES = [65.41, 130.81, 164.81, 196.00, 246.94]; // C2 · Cmaj7 (C E G B)
-    const PEAK = 0.15;
-
-    function build() {
-      ctx = new AudioCtx();
-      analyser = ctx.createAnalyser();
-      analyser.fftSize = 1024;                 // -> 512 frequency bins, matches BINS
-      analyser.smoothingTimeConstant = 0.82;
-      master = ctx.createGain();
-      master.gain.value = 0.0001;
-      lp = ctx.createBiquadFilter();
-      lp.type = 'lowpass';
-      lp.frequency.value = 1500;
-      lp.Q.value = 0.6;
-      const comp = ctx.createDynamicsCompressor();
-      comp.threshold.value = -18; comp.knee.value = 24; comp.ratio.value = 4;
-
-      // master breathing LFO -> master.gain (adds to intrinsic envelope value)
-      const mLFO = ctx.createOscillator(); mLFO.type = 'sine'; mLFO.frequency.value = 0.08;
-      const mLFOg = ctx.createGain(); mLFOg.gain.value = 0.045;
-      mLFO.connect(mLFOg).connect(master.gain); mLFO.start();
-
-      // slow filter sweep for evolving timbre
-      const fLFO = ctx.createOscillator(); fLFO.type = 'sine'; fLFO.frequency.value = 0.05;
-      const fLFOg = ctx.createGain(); fLFOg.gain.value = 420;
-      fLFO.connect(fLFOg).connect(lp.frequency); fLFO.start();
-
-      NOTES.forEach((freqHz, n) => {
-        const vg = ctx.createGain();
-        vg.gain.value = n === 0 ? 0.10 : 0.075;    // bass note a touch louder
-        // two detuned oscillators per note for warmth (sine + triangle)
-        [['sine', -6], ['triangle', 7]].forEach(([type, detune]) => {
-          const o = ctx.createOscillator();
-          o.type = type; o.frequency.value = freqHz; o.detune.value = detune;
-          o.connect(vg); o.start();
-          voices.push(o);
-        });
-        // gentle per-voice amplitude drift
-        const vLFO = ctx.createOscillator(); vLFO.type = 'sine';
-        vLFO.frequency.value = 0.05 + n * 0.017;
-        const vLFOg = ctx.createGain(); vLFOg.gain.value = 0.02;
-        vLFO.connect(vLFOg).connect(vg.gain); vLFO.start();
-        vg.connect(master);
-      });
-
-      master.connect(lp); lp.connect(comp); comp.connect(analyser); analyser.connect(ctx.destination);
-      started = true;
-    }
-
-    function ramp(to, secs) {
-      const now = ctx.currentTime;
-      master.gain.cancelScheduledValues(now);
-      master.gain.setValueAtTime(Math.max(0.0001, master.gain.value), now);
-      master.gain.linearRampToValueAtTime(to, now + secs);
-    }
-
-    return {
-      get playing() { return started && ctx && ctx.state === 'running'; },
-      // returns true if audio is now producing sound
-      start() {
-        try {
-          if (!started) build();
-          clearTimeout(suspendT); suspendT = 0;               // cancel a pending suspend from a recent mute
-          const r = ctx.resume ? ctx.resume() : Promise.resolve();
-          return Promise.resolve(r).then(() => { ramp(PEAK, 1.1); return true; }).catch(() => false);
-        } catch (e) { return Promise.resolve(false); }
-      },
-      stop() {
-        try {
-          if (!started) return;
-          ramp(0.0001, 0.6);
-          if (ctx.suspend) { clearTimeout(suspendT); suspendT = setTimeout(() => { ctx.suspend().catch(() => {}); }, 650); }
-        } catch (e) {}
-      },
-      sample() {
-        if (this.playing) { analyser.getByteFrequencyData(freq); analyser.getByteTimeDomainData(wave); return true; }
-        return false;
-      },
-    };
-  })();
 
   /* ================= MESH CANVAS ================= */
   const mesh = (() => {
@@ -255,7 +165,8 @@
   let raf = 0;
   function frame(now) {
     const t = now * 0.001;
-    if (!audio.sample()) { synthSpectrum(t); synthWave(t); }  // synthetic when silent
+    synthSpectrum(t);
+    synthWave(t); // animated visual data; no audio generated
     if (mesh) mesh.draw(t);
     if (bars) bars.draw();
     raf = requestAnimationFrame(frame);
@@ -266,47 +177,6 @@
     if (bars) bars.draw();
   }
   function resizeAll() { if (mesh) mesh.resize(); if (bars) bars.resize(); }
-
-  /* ================= PLAY / MUTE CONTROL ================= */
-  const playBtn = document.getElementById('play');
-  const readout = document.getElementById('readout');
-  const readoutWrap = readout ? readout.closest('.readout') : null;
-  const label = playBtn ? playBtn.querySelector('.play-label') : null;
-
-  function setReadout(text, live) {
-    if (readout) readout.textContent = text;
-    if (readoutWrap) readoutWrap.classList.toggle('live', !!live);
-  }
-
-  if (playBtn) {
-    if (!audioOK) {
-      playBtn.disabled = true;
-      playBtn.setAttribute('aria-disabled', 'true');
-      if (label) label.textContent = 'Audio unavailable';
-      setReadout('Synthetic sine — audio engine unavailable', false);
-    } else {
-      let on = false;
-      playBtn.addEventListener('click', () => {
-        if (!on) {
-          audio.start().then((ok) => {
-            if (!ok) { setReadout('Playback blocked — synthetic sine', false); return; }
-            on = true;
-            playBtn.classList.add('is-playing');
-            playBtn.setAttribute('aria-pressed', 'true');
-            if (label) label.textContent = 'Mute pad';
-            setReadout('Now generating — ambient pad in Cmaj7 — 5 voices', true);
-          });
-        } else {
-          audio.stop();
-          on = false;
-          playBtn.classList.remove('is-playing');
-          playBtn.setAttribute('aria-pressed', 'false');
-          if (label) label.textContent = 'Play site ambience';
-          setReadout('Paused — synthetic sine — muted', false);
-        }
-      });
-    }
-  }
 
   /* ================= BOOT ================= */
   resizeAll();
