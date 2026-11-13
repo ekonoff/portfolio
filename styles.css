@@ -74,7 +74,7 @@ img,canvas{display:block;max-width:100%}
 
 .eyebrow{font-family:"JetBrains Mono",monospace;font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;
   color:var(--cyan);margin-bottom:clamp(18px,3vh,30px)}
-.hero-title{font-size:clamp(3rem,12vw,10rem);line-height:.9;letter-spacing:-.03em;font-weight:700}
+.hero-title{font-size:clamp(2.7rem,9.5vw,9rem);line-height:.9;letter-spacing:-.03em;font-weight:700}
 .hero-title .line{display:block;overflow:hidden;padding-bottom:.06em}
 .grad{background:linear-gradient(96deg,var(--amber) 0%,#ffe7c2 26%,var(--cyan) 62%,#bff6ee 100%);
   background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
@@ -320,7 +320,7 @@ a:focus-visible,button:focus-visible,.reel-row:focus-visible{outline:2px solid v
 @media(max-width:900px){.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:630px){
   .nav{gap:12px}.brand{font-size:.86rem}.nav-links{gap:12px;font-size:.65rem}
-  .hero-title{font-size:clamp(2.6rem,11.5vw,6rem)}
+  .hero-title{font-size:clamp(2.25rem,9vw,5rem)}
   .video-slot{min-height:270px}
   .project-grid{grid-template-columns:1fr}
   .project-art{height:170px}
@@ -330,7 +330,7 @@ a:focus-visible,button:focus-visible,.reel-row:focus-visible{outline:2px solid v
   .video-corner{left:16px}
   .viz-caption span:nth-child(2){font-size:.56rem;text-align:center}
 }
-@media(max-width:380px){.nav-links{gap:9px;font-size:.6rem}.brand{font-size:.79rem}.hero-title{font-size:11vw}}
+@media(max-width:380px){.nav-links{gap:9px;font-size:.6rem}.brand{font-size:.79rem}.hero-title{font-size:9vw}}
 @media(prefers-reduced-motion:reduce){
   .js .hero .hero-link{opacity:1!important;transform:none!important;transition:none!important}
   .project-card:hover{transform:none}
