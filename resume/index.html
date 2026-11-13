@@ -15,6 +15,10 @@ body{font-family:Inter,Arial,Helvetica,sans-serif;color:var(--ink);margin:0;line
 .utility{display:flex;justify-content:space-between;align-items:center;gap:15px;max-width:890px;margin:20px auto;padding:0 14px}
 .utility a{color:#18576a;text-decoration:none;font-weight:600}
 .utility button{border:0;background:#083c46;color:white;border-radius:9px;padding:12px 18px;cursor:pointer;font:600 .91rem Inter,Arial,sans-serif}
+.utility-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.utility .utility-download{background:#117a8c;color:#fff;padding:12px 18px;border-radius:9px;font:600 .91rem Inter,Arial,sans-serif}
+.utility .utility-download:hover{background:#0b5e6e}
+
 .sheet{width:min(100% - 28px,850px);min-height:1070px;margin:0 auto 32px;background:white;padding:46px 58px 40px;box-shadow:0 12px 40px #0a172331}
 header{text-align:center;border-bottom:2px solid var(--accent);padding-bottom:15px}
 h1{font-size:30px;letter-spacing:.11em;margin:0 0 6px;font-weight:800}
@@ -46,7 +50,10 @@ li{font-size:10.2px;line-height:1.42;margin:3px 0}
 <body>
 <div class="utility">
   <a href="../">← Back to portfolio</a>
-  <button type="button" onclick="window.print()">Print / Save as PDF</button>
+  <div class="utility-actions">
+    <a class="utility-download" href="./Elisha_Konoff_Resume.pdf" download="Elisha_Konoff_Resume.pdf">Download PDF</a>
+    <button type="button" onclick="window.print()">Print / Save as PDF</button>
+  </div>
 </div>
 <main class="sheet">
 <header>
