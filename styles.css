@@ -356,3 +356,8 @@ a:focus-visible,button:focus-visible,.reel-row:focus-visible{outline:2px solid v
 .feature-role + .project-tags{margin-top:18px}
 
 @media (max-width:1020px) and (min-width:701px){.contact-methods{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Secondary, non-download résumé link beneath contact cards */
+.contact-resume-alternative{margin-top:18px!important;font-family:"JetBrains Mono",monospace;font-size:.81rem!important;line-height:1.6;color:var(--dim)}
+.contact-resume-alternative a{color:var(--cyan);text-decoration:underline;text-underline-offset:4px}
+.contact-resume-alternative a:hover{color:var(--amber)}
