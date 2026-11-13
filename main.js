@@ -301,7 +301,7 @@
           on = false;
           playBtn.classList.remove('is-playing');
           playBtn.setAttribute('aria-pressed', 'false');
-          if (label) label.textContent = 'Play ambient pad';
+          if (label) label.textContent = 'Play site ambience';
           setReadout('Paused — synthetic sine — muted', false);
         }
       });
