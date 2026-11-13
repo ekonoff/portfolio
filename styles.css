@@ -186,7 +186,7 @@ a:focus-visible,button:focus-visible,.reel-row:focus-visible{outline:2px solid v
   .js .hero .eyebrow,.js .hero-title .line,.js .hero-sub,.js .bars,.js .viz-caption,.js .scroll-cue{
     opacity:1!important;transform:none!important;transition:none!important}
   .grad{animation:none}
-  .brand-mark,.readout.live .dot,.scroll-cue span{animation:none}
+  .brand-mark,.scroll-cue span{animation:none}
   .cursor{display:none}
 }
 
