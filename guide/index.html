@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RESONANCE — Guide · How this was built</title>
+<meta name="description" content="How the RESONANCE site was built by Formwork: an audio-reactive mesh-gradient on canvas driven by a live Web Audio ambient pad, with a synthetic fallback." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{--bg:#06171f;--bg-2:#0a2430;--ink:#f3f8f7;--dim:#8fb3b6;--faint:#5c8288;--accent:#ffb347;--cyan:#3fe0d0;--line:rgba(63,224,208,.14)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:"Space Grotesk",system-ui,sans-serif;font-weight:300;line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:760px;margin:0 auto;padding:clamp(28px,6vw,80px) clamp(20px,5vw,32px)}
+  .top{display:flex;justify-content:space-between;align-items:center;font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:clamp(40px,8vh,90px)}
+  .top a{color:var(--dim)}
+  .brand{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.15rem;letter-spacing:.02em;color:var(--ink)}
+  h1{font-weight:600;font-size:clamp(2.4rem,7vw,4.2rem);line-height:1.02;letter-spacing:-.03em;margin-bottom:1.2rem}
+  h1 em{font-style:normal;background:linear-gradient(96deg,var(--accent),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .lede{font-size:clamp(1.1rem,2.2vw,1.3rem);color:var(--dim);max-width:58ch;margin-bottom:3rem}
+  h2{font-weight:600;font-size:clamp(1.5rem,4vw,2.2rem);margin:2.8rem 0 1rem;letter-spacing:-.02em}
+  p{color:var(--dim);margin:0 0 1.1rem;max-width:64ch}
+  .tag{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:1.4rem}
+  ul,ol{color:var(--dim);margin:0 0 1.2rem 1.2rem}
+  li{margin:.4rem 0}
+  strong{color:var(--ink);font-weight:500}
+  code{font-family:"JetBrains Mono",monospace;font-size:.86em;background:rgba(63,224,208,.09);padding:.12em .4em;border-radius:3px;color:var(--ink)}
+  pre{background:#0a2430;border:1px solid var(--line);border-radius:7px;padding:18px 20px;overflow-x:auto;margin:0 0 1.4rem;font-size:.82rem;line-height:1.65}
+  pre code{background:none;padding:0;color:var(--dim)}
+  pre code .k{color:var(--cyan)}
+  pre code .c{color:var(--faint)}
+  .rule{height:1px;background:var(--line);margin:3rem 0}
+  .stack{list-style:none;margin:0 0 1.2rem;padding:0;display:grid;gap:2px}
+  .stack li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+  .stack b{color:var(--ink);font-weight:500;min-width:132px;display:inline-block}
+  footer{margin-top:4rem;padding-top:2rem;border-top:1px solid var(--line);font-family:"JetBrains Mono",monospace;font-size:.78rem;letter-spacing:.04em;color:var(--faint)}
+  footer strong{color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <a class="brand" href="../">RESONANCE</a>
+    <a href="../">← Back to site</a>
+  </div>
+
+  <span class="tag">Build guide · Site 14 of 25</span>
+  <h1>A studio that <em>sounds</em> before it speaks.</h1>
+  <p class="lede">RESONANCE is one of 25 sites designed and built by Formwork to demonstrate web
+    craft, motion, and taste. This one is about listening — the hero is a colour field that
+    breathes to sound the browser makes itself. Here is exactly how it works.</p>
+
+  <h2>The idea</h2>
+  <p>The brief was "deep, warm, sonic." Instead of a video loop or a static gradient, the hero is a
+    <strong>living mesh-gradient</strong> — five soft colour blobs drifting through a teal-black
+    field — that pulses to audio. Because browsers rightly block autoplay, the page can't assume
+    sound. So it runs in two modes: <strong>silent-but-alive</strong> by default, and
+    <strong>reactive</strong> once you press play. Same visual code path, two spectrum sources.</p>
+
+  <h2>The stack</h2>
+  <ul class="stack">
+    <li><b>Mesh gradient</b> Plain Canvas 2D — additive radial gradients, no WebGL, no library.</li>
+    <li><b>Sound</b> The Web Audio API: oscillators → filter → compressor → <code>AnalyserNode</code>.</li>
+    <li><b>Visualizer</b> A second canvas: frequency bars + a time-domain waveform overlay.</li>
+    <li><b>Type</b> Space Grotesk (display + UI) with JetBrains Mono for labels and timecodes.</li>
+    <li><b>Build</b> One HTML file, one stylesheet, one script. No bundler, no framework.</li>
+    <li><b>Host</b> GitHub Pages, straight from the repo's <code>main</code> branch.</li>
+  </ul>
+
+  <h2>The signature technique: sound you can see</h2>
+  <p>Press play and the site builds an ambient pad from scratch — a detuned <strong>Cmaj7</strong>
+    chord (C, E, G, B over a low C) where every note is two slightly-detuned oscillators, plus slow
+    LFOs on the master gain and filter so the chord breathes and evolves. It routes through an
+    <code>AnalyserNode</code>, and every frame we read the spectrum and let it move the blobs:</p>
+  <pre><code><span class="c">// one shared buffer — the analyser OR a synthetic sine fills it</span>
+<span class="k">if</span> (!audio.sample()) { synthSpectrum(t); synthWave(t); }
+
+<span class="c">// each blob grows and brightens with its own frequency band</span>
+<span class="k">const</span> band = bandEnergy(b.band[0], b.band[1]);
+<span class="k">const</span> r = min * (b.base + band * b.react + energy * 0.08);
+<span class="k">const</span> g = ctx.createRadialGradient(px, py, 0, px, py, r);
+g.addColorStop(0, `rgba(${c},${a})`);
+ctx.globalCompositeOperation = 'lighter';   <span class="c">// blobs add into a glow</span></code></pre>
+  <p>Before any click, <code>synthSpectrum()</code> fabricates a gentle, moving spectrum from a few
+    sine LFOs, so the hero is never dead — it just happens to be silent. Muting fades the pad out and
+    drops straight back to that synthetic source. The two modes are indistinguishable to the render loop.</p>
+
+  <h2>Details that matter</h2>
+  <ul>
+    <li><strong>No autoplay, ever.</strong> The <code>AudioContext</code> is created inside the click handler and resumed there — the only place browsers allow it.</li>
+    <li><strong>Graceful degrade.</strong> No <code>AudioContext</code>? The button disables itself and the visuals keep animating synthetically. No console errors either way.</li>
+    <li><strong>Reduced motion.</strong> With <code>prefers-reduced-motion</code> the loop never starts: one static mesh frame renders and all reveals are forced visible.</li>
+    <li><strong>Performance.</strong> Device-pixel-ratio is capped at 1.5, blobs fill only their bounding box, and the loop pauses when the tab is hidden.</li>
+  </ul>
+
+  <h2>Ship it on GitHub Pages</h2>
+  <p>The whole site is static, so hosting is three commands:</p>
+  <pre><code>git init -b main && git add -A && git commit -m "ship"
+gh repo create formwork-resonance --public --source=. --push
+gh api --method POST /repos/OWNER/formwork-resonance/pages \
+  -f 'source[branch]=main' -f 'source[path]=/'</code></pre>
+  <p>Use <strong>relative paths</strong> (<code>./main.js</code>, not <code>/main.js</code>) because
+    project Pages live under <code>/repo-name/</code>. Add an empty <code>.nojekyll</code> file so
+    every asset serves verbatim.</p>
+
+  <div class="rule"></div>
+  <p>That's the recipe: two canvases, a chord the browser plays to itself, and a synthetic
+    understudy so the page is alive even in silence. The other 24 sites each swap the central
+    technique — shaders, particles, kinetic type — but the discipline is the same.</p>
+
+  <footer>Designed &amp; built by <strong>Formwork</strong> · Part of a 25-site showcase · <a href="../">Return to RESONANCE →</a></footer>
+</div>
+</body>
+</html>

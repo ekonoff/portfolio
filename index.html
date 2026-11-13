@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>document.documentElement.classList.add('js')</script>
+<title>RESONANCE — Sound design & sonic identity</title>
+<meta name="description" content="RESONANCE is a sound-design studio composing the space between silence and signal — scores, sonic identity, and spatial audio for film, brands, and interactive worlds." />
+<meta name="theme-color" content="#06171f" />
+<meta property="og:title" content="RESONANCE — Sound design & sonic identity" />
+<meta property="og:description" content="A studio composing the space between silence and signal. Press play — an ambient pad, synthesized live, drives the mesh." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="./" aria-label="RESONANCE — home">
+    RESONANCE<span class="brand-mark" aria-hidden="true"></span>
+  </a>
+  <nav class="nav-links" aria-label="Primary">
+    <a href="#reel">Reel</a>
+    <a href="#on-sound">On sound</a>
+    <a href="./guide/">Guide</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero" id="top">
+    <canvas id="mesh" class="mesh" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <p class="eyebrow reveal">Sound design &amp; sonic identity — est. 2019 · Lisbon / Berlin</p>
+      <h1 class="hero-title"><span class="line"><span class="grad">RESONANCE</span></span></h1>
+      <p class="hero-sub reveal">A studio composing the space between silence and signal —
+        scores, sonic identity, and spatial audio for film, brands, and interactive worlds.</p>
+
+      <div class="hero-controls reveal">
+        <button id="play" class="play" type="button" aria-pressed="false"
+          aria-label="Play the ambient pad — synthesizes a Cmaj7 chord live in your browser">
+          <span class="play-icon" aria-hidden="true"></span>
+          <span class="play-label">Play ambient pad</span>
+        </button>
+        <div class="readout" role="status" aria-live="polite">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="readout-text" id="readout">Standby — synthetic sine — muted</span>
+        </div>
+      </div>
+
+      <canvas id="bars" class="bars" aria-hidden="true"></canvas>
+      <p class="viz-caption" aria-hidden="true">
+        <span>20&#8202;Hz</span><span>frequency + waveform · live</span><span>20&#8202;kHz</span>
+      </p>
+    </div>
+    <div class="scroll-cue reveal" aria-hidden="true"><span></span>scroll</div>
+  </section>
+
+  <section id="reel" class="reel">
+    <div class="section-head">
+      <p class="kicker">Selected work · 01 — 07</p>
+      <h2 class="reveal">The Reel</h2>
+    </div>
+    <ul class="reel-list">
+      <li class="reel-row reveal" tabindex="0">
+        <span class="r-idx">01</span>
+        <span class="r-name">Tidal Glass</span>
+        <span class="r-client">Aperture Films</span>
+        <span class="r-format">Feature score</span>
+        <span class="r-year">2025</span>
+        <span class="r-arrow" aria-hidden="true">&#8599;</span>
+      </li>
+      <li class="reel-row reveal" tabindex="0">
+        <span class="r-idx">02</span>
+        <span class="r-name">Northwind</span>
+        <span class="r-client">Volvo Recharge</span>
+        <span class="r-format">Sonic identity</span>
+        <span class="r-year">2024</span>
+        <span class="r-arrow" aria-hidden="true">&#8599;</span>
+      </li>
+      <li class="reel-row reveal" tabindex="0">
+        <span class="r-idx">03</span>
+        <span class="r-name">Hollow Signal</span>
+        <span class="r-client">A24</span>
+        <span class="r-format">Title sequence</span>
+        <span class="r-year">2025</span>
+        <span class="r-arrow" aria-hidden="true">&#8599;</span>
+      </li>
+      <li class="reel-row reveal" tabindex="0">
+        <span class="r-idx">04</span>
+        <span class="r-name">Meridian</span>
+        <span class="r-client">Teenage Engineering</span>
+        <span class="r-format">Product sound</span>
+        <span class="r-year">2024</span>
+        <span class="r-arrow" aria-hidden="true">&#8599;</span>
+      </li>
+      <li class="reel-row reveal" tabindex="0">
+        <span class="r-idx">05</span>
+        <span class="r-name">Deep Field</span>
+        <span class="r-client">NASA JPL</span>
+        <span class="r-format">Sound installation</span>
+        <span class="r-year">2023</span>
+        <span class="r-arrow" aria-hidden="true">&#8599;</span>
+      </li>
+      <li class="reel-row reveal" tabindex="0">
+        <span class="r-idx">06</span>
+        <span class="r-name">Paper Cinema</span>
+        <span class="r-client">Criterion</span>
+        <span class="r-format">Restoration mix</span>
+        <span class="r-year">2023</span>
+        <span class="r-arrow" aria-hidden="true">&#8599;</span>
+      </li>
+      <li class="reel-row reveal" tabindex="0">
+        <span class="r-idx">07</span>
+        <span class="r-name">Quiet Machines</span>
+        <span class="r-client">Nothing</span>
+        <span class="r-format">Interface audio</span>
+        <span class="r-year">2025</span>
+        <span class="r-arrow" aria-hidden="true">&#8599;</span>
+      </li>
+    </ul>
+  </section>
+
+  <section id="on-sound" class="onsound">
+    <div class="onsound-inner">
+      <p class="kicker reveal">On sound</p>
+      <p class="onsound-lead reveal">Sound is the fastest sense. It reaches you
+        <em>before</em> you decide to listen.</p>
+      <div class="onsound-cols">
+        <p class="reveal">We treat a room, a brand, or a film the way a composer treats a score —
+          as a system of tensions waiting to resolve. Every project begins in silence, then earns
+          each frequency it adds. Nothing is placed until it has a reason to sound.</p>
+        <p class="reveal">Our work lives in the low warmth of a subwoofer and the air at the very top
+          of a cymbal. We record real rooms, resynthesize their character, and fold the result back
+          into something that feels less designed than remembered — a signal you swear you have heard before.</p>
+      </div>
+      <p class="onsound-sign reveal">— The composers, RESONANCE</p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-top">
+    <a class="footer-brand" href="#top">RESONANCE</a>
+    <a class="footer-mail" href="mailto:hello@resonance.audio">hello@resonance.audio</a>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 RESONANCE Sound · Lisbon / Berlin</span>
+    <span>Designed &amp; built by <strong>Formwork</strong> · <a href="./guide/">How this was built →</a></span>
+  </div>
+</footer>
+
+<script src="./main.js"></script>
+</body>
+</html>
