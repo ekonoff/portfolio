@@ -349,3 +349,12 @@ a:focus-visible,button:focus-visible,.reel-row:focus-visible{outline:2px solid v
   .js .hero .hero-link{opacity:1!important;transform:none!important;transition:none!important}
   .project-card:hover{transform:none}
 }
+
+/* ---- ready-to-play portfolio audio ---- */
+.project-card h4 small{display:block;margin-top:8px;font-size:.52em;color:var(--cyan);
+  font-family:"JetBrains Mono",monospace;font-weight:400;letter-spacing:.03em}
+.project-audio-wrap{margin-top:20px;border-top:1px solid var(--line);padding-top:18px;min-height:72px}
+.project-audio-wrap .media-pending{border-top:0;margin:0;padding:10px 0 0}
+.project-audio{display:block;width:100%;height:46px;accent-color:var(--cyan);color-scheme:dark}
+.project-audio[hidden]{display:none}
+.project-grid + .feature-card{margin-top:clamp(65px,8vw,112px)}
