@@ -299,6 +299,22 @@ a:focus-visible,button:focus-visible,.reel-row:focus-visible{outline:2px solid v
   background:var(--amber);color:#06171f;border-radius:40px;font-weight:600;
   transition:transform .25s var(--ease),background .25s}
 .contact-link:hover{transform:translateY(-3px);background:var(--cyan)}
+.contact-methods{margin-top:clamp(28px,4vw,48px);display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:940px}
+.contact-method{min-width:0;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:clamp(20px,3vw,32px);border:1px solid rgba(63,224,208,.18);
+  background:linear-gradient(125deg,rgba(16,57,70,.55),rgba(8,31,41,.8));
+  border-radius:14px;transition:border-color .25s,background .25s,transform .25s var(--ease)}
+.contact-method:hover{border-color:rgba(255,179,71,.62);transform:translateY(-3px)}
+.contact-method:focus-visible{outline:2px solid var(--amber);outline-offset:4px}
+.contact-method-info{display:flex;flex-direction:column;gap:11px;min-width:0}
+.contact-method-label{font-family:"JetBrains Mono",monospace;letter-spacing:.12em;
+  color:var(--cyan);font-size:.73rem}
+.contact-method-value{font-size:clamp(.95rem,1.65vw,1.28rem);color:var(--ink);
+  overflow-wrap:anywhere;line-height:1.4}
+.contact-method-arrow{font-size:1.6rem;color:var(--amber);flex-shrink:0;transition:transform .25s}
+.contact-method:hover .contact-method-arrow{transform:translate(3px,-3px)}
+@media(max-width:700px){.contact-methods{grid-template-columns:1fr}}
 .footer-back{color:var(--amber);font-family:"JetBrains Mono",monospace;font-size:.83rem}
 .footer-back:hover{color:var(--cyan)}
 @media(max-width:900px){.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
