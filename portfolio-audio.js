@@ -23,8 +23,6 @@
         const otherAudio = other.querySelector('audio');
         if (otherAudio && otherAudio !== audio) otherAudio.pause();
       });
-      const ambient = document.getElementById('play');
-      if (ambient && ambient.getAttribute('aria-pressed') === 'true') ambient.click();
     });
   });
 })();
