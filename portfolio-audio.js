@@ -26,3 +26,24 @@
     });
   });
 })();
+
+/* Show the featured sound redesign only when the video upload is available. */
+(() => {
+  const feature = document.getElementById('regular-show-project');
+  const video = document.getElementById('regular-show-player');
+  if (!feature || !video) return;
+  const showFeature = () => {
+    if (!feature.hidden) return;
+    feature.hidden = false;
+    const heading = document.querySelector('.projects-heading .kicker');
+    if (heading) heading.textContent = '02 — 04 / Listen now';
+    document.querySelectorAll('.project-index').forEach((index, i) => {
+      index.textContent = String(i + 2).padStart(2, '0');
+    });
+  };
+  video.addEventListener('loadedmetadata', showFeature);
+  if (video.readyState >= 1) showFeature();
+  const audios = document.querySelectorAll('.project-audio');
+  video.addEventListener('play', () => audios.forEach(audio => audio.pause()));
+  audios.forEach(audio => audio.addEventListener('play', () => video.pause()));
+})();
